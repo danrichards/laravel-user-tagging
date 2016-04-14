@@ -1,8 +1,5 @@
 <?php namespace Conner\Tagging\Contracts;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Database\Eloquent\Collection;
-
 /**
  * Copyright (C) 2015 Robert Conner
  */
@@ -18,7 +15,7 @@ interface TaggableContract {
 	/**
 	 * Perform the action of tagging the model with the given string
 	 *
-	 * @param $tagName string or array
+	 * @param $tagNames string or array
 	 */
 	public function tag($tagNames);
 	
@@ -39,28 +36,30 @@ interface TaggableContract {
 	/**
 	 * Remove the tag from this model
 	 *
-	 * @param $tagName string or array (or null to remove all tags)
+	 * @param string|array|null $tagNames (null to remove all tags)
 	 */
-	public function untag($tagNames=null);
+	public function untag($tagNames = null);
 	
 	/**
 	 * Replace the tags from this model
 	 *
-	 * @param $tagName string or array
+	 * @param string|array $tagNames
 	 */
 	public function retag($tagNames);
 
 	/**
 	 * Filter model to subset with the given tags
 	 *
-	 * @param $tagNames array|string
+	 * @param \Illuminate\Database\Query\Builder $query
+	 * @param array|string $tagNames
 	 */
 	public function scopeWithAllTags($query, $tagNames);
 
 	/**
 	 * Filter model to subset with the given tags
 	 *
-	 * @param $tagNames array|string
+	 * @param \Illuminate\Database\Query\Builder $query
+	 * @param array|string $tagNames
 	 */
 	public function scopeWithAnyTag($query, $tagNames);
 	
@@ -72,12 +71,12 @@ interface TaggableContract {
 	public static function existingTags();
 	
 	/**
-	 * Should untag on delete
+	 * Delete tags that are not used anymore
 	 */
 	public static function untagOnDelete();
 	
 	/**
-	 * Delete tags that are not used anymore
+	 * Should untag on delete
 	 */
 	public static function shouldDeleteUnused();
 

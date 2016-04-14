@@ -1,7 +1,9 @@
-<?php namespace Conner\Tagging\Contracts;
+<?php
+
+namespace Conner\Tagging\Contracts;
 
 /**
- * Intergace of utility functions to help with various tagging functionality.
+ * Interface of utility functions to help with various tagging functionality.
  *
  * @author Rob Conner <rtconner+gh@gmail.com>
  *
@@ -9,13 +11,23 @@
  */
 interface TaggingUtility
 {
+	
 	/**
 	 * Converts input into array
 	 *
-	 * @param $tagName string or array
+	 * @param array|string $tagNames
 	 * @return array
 	 */
-	public function makeTagArray($tagNames);
+	public static function makeTagArray($tagNames);
+
+	/**
+	 * Build an array of slugs with various inputs.
+	 *
+	 * @param \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|\stdClass|array|string $tags
+	 * @return array
+	 * @throws \InvalidArgumentException
+	 */
+	public static function makeSlugArray($tags);
 
 	/**
 	 * Create a web friendly URL slug from a string.
@@ -30,35 +42,57 @@ interface TaggingUtility
 	 * @return string
 	 */
 	public static function slug($str);
-		
-	/**
-	 * Private! Please do not call this function directly, just let the Tag library use it.
-	 * Increment count of tag by one. This function will create tag record if it does not exist.
-	 *
-	 * @param string $tagString
-	 */
-	public function incrementCount($tagString, $tagSlug, $count);
 	
 	/**
-	 * Private! Please do not call this function directly, let the Tag library use it.
-	 * Decrement count of tag by one. This function will create tag record if it does not exist.
-	 *
-	 * @param string $tagString
-	 */
-	public function decrementCount($tagString, $tagSlug, $count);
-	
-	/**
-	 * Look at the tags table and delete any tags that are no londer in use by any taggable database rows.
+	 * Look at the tags table and delete any tags that are no longer in use by any taggable database rows.
 	 * Does not delete tags where 'suggest' is true
 	 *
 	 * @return int
 	 */
 	public function deleteUnusedTags();
+
+	/**
+	 * Return string with full namespace of the User model
+	 *
+	 * @return string
+	 */
+	public static function userModelString();
 	
 	/**
 	 * Return string with full namespace of the Tag model
 	 *
 	 * @return string
 	 */
-	public function tagModelString();
+	public static function tagModelString();
+
+	/**
+	 * Return string with full namespace of the Tagged model
+	 *
+	 * @return string
+	 */
+	public static function taggedModelString();
+
+	/**
+	 * Return string with full namespace of the TaggedUser model
+	 *
+	 * @return string
+	 */
+	public static function taggedUserModelString();
+
+	/**
+	 * Return normalized string or array.
+	 *
+	 * @param array|string $tagNames
+	 * @return array|string
+	 */
+	public static function normalize($tagNames);
+
+	/**
+	 * Return display constraint for string or array.
+	 *
+	 * @param array|string $tagNames
+	 * @return array|string
+	 */
+	public static function display($tagNames);
+
 }

@@ -1,23 +1,30 @@
-<?php namespace Conner\Tagging;
+<?php
+
+namespace Conner\Tagging;
 
 use Conner\Tagging\Contracts\TaggingUtility;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Utility functions to help with various tagging functionality.
+ * Class Util
+ *
+ * Functions to help with various tagging functionality.
  *
  * @author Rob Conner <rtconner@gmail.com>
- *
+ * 
  * Copyright (C) 2014 Robert Conner
  */
 class Util implements TaggingUtility
 {
+	
 	/**
 	 * Converts input into array
 	 *
-	 * @param $tagName string or array
+	 * @param $tagNames string or array
 	 * @return array
 	 */
-	public function makeTagArray($tagNames)
+	public static function makeTagArray($tagNames)
 	{
 		if(is_array($tagNames) && count($tagNames) == 1) {
 			$tagNames = reset($tagNames);
@@ -35,6 +42,38 @@ class Util implements TaggingUtility
 	}
 
 	/**
+	 * Build an array of slugs with various inputs.
+	 *
+	 * @param Collection|Model|\stdClass|array|string $tags
+	 * @return array
+	 * @throws \InvalidArgumentException
+	 */
+	public static function makeSlugArray($tags) {
+		if ($tags instanceof \Illuminate\Support\Collection) {
+			if (is_object($first = $tags->first())){
+				if (! empty($first->tag_slug)) {
+					return $tags->pluck('tag_slug')->all();
+				} elseif(! empty($first->slug)) {
+					return $tags->pluck('slug')->all();
+				} else {
+					throw new \InvalidArgumentException('Collection must have tag or tag_slug key.');
+				}
+			} else {
+				return [];
+			}
+		} elseif (is_object($tags) && ! empty($tags->slug)) {
+			return (array) $tags->slug;
+		} elseif (is_object($tags) && ! empty($tags->tag_slug)) {
+			return (array) $tags->tag_slug;
+		} elseif (is_array($tags)) {
+			return self::normalize((array) $tags);
+		} elseif (is_string($tags)) {
+			return self::normalize(array_map('trim', explode(',', $tags)));
+		}
+		throw new \InvalidArgumentException('The $tags argument must be Collection|array|string or class with slug attribute|property.');
+	}
+
+	/**
 	 * Create a web friendly URL slug from a string.
 	 *
 	 * Although supported, transliteration is discouraged because
@@ -47,7 +86,7 @@ class Util implements TaggingUtility
 	 * @return string
 	 */
 	public static function slug($str)
-	{
+	{		
 		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
 		$str = mb_convert_encoding((string)$str, 'UTF-8');
 	
@@ -152,54 +191,6 @@ class Util implements TaggingUtility
 	}
 	
 	/**
-	 * Private! Please do not call this function directly, just let the Tag library use it.
-	 * Increment count of tag by one. This function will create tag record if it does not exist.
-	 *
-	 * @param string $tagString
-	 */
-	public function incrementCount($tagString, $tagSlug, $count)
-	{
-		if($count <= 0) { return; }
-		$model = $this->tagModelString();
-		
-		$tag = $model::where('slug', '=', $tagSlug)->first();
-
-		if(!$tag) {
-			$tag = new $model;
-			$tag->name = $tagString;
-			$tag->slug = $tagSlug;
-			$tag->suggest = false;
-			$tag->save();
-		}
-		
-		$tag->count = $tag->count + $count;
-		$tag->save();
-	}
-	
-	/**
-	 * Private! Please do not call this function directly, let the Tag library use it.
-	 * Decrement count of tag by one. This function will create tag record if it does not exist.
-	 *
-	 * @param string $tagString
-	 */
-	public function decrementCount($tagString, $tagSlug, $count)
-	{
-		if($count <= 0) { return; }
-		$model = $this->tagModelString();
-		
-		$tag = $model::where('slug', '=', $tagSlug)->first();
-	
-		if($tag) {
-			$tag->count = $tag->count - $count;
-			if($tag->count < 0) {
-				$tag->count = 0;
-				\Log::warning("The '.$model.' count for `$tag->name` was a negative number. This probably means your data got corrupted. Please assess your code and report an issue if you find one.");
-			}
-			$tag->save();
-		}
-	}
-	
-	/**
 	 * Look at the tags table and delete any tags that are no londer in use by any taggable database rows.
 	 * Does not delete tags where 'suggest' is true
 	 *
@@ -207,15 +198,71 @@ class Util implements TaggingUtility
 	 */
 	public function deleteUnusedTags()
 	{
-		$model = $this->tagModelString();
+		$model = self::tagModelString();
 		return $model::deleteUnused();
+	}
+
+	/**
+	 * Return normalized string or array.
+	 *
+	 * @param array|string $tagNames
+	 * @return array|string
+	 */
+	public static function normalize($tagNames)
+	{
+		if (is_array($tagNames)) {
+			return array_map([__CLASS__, 'normalize'], $tagNames);
+		}
+
+		$normalizer = config('tagging.normalizer', [__CLASS__, 'slug']);
+		return call_user_func($normalizer, trim($tagNames));
+	}
+
+	/**
+	 * Return display constraint for single tag name or an array of tag names.
+	 *
+	 * @param array|string $tagNames
+	 * @return array|string
+	 */
+	public static function display($tagNames)
+	{
+		if (is_array($tagNames)) {
+			return array_map([__CLASS__, 'display'], $tagNames);
+		}
+
+		$displayer = config('tagging.displayer', '\Illuminate\Support\Str::title');
+		return call_user_func($displayer, $tagNames);
 	}
 
 	/**
 	 * @return string
 	 */
-	public function tagModelString()
+	public static function userModelString()
+	{
+		return config('tagging.user_model', '\App\User');
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function tagModelString()
 	{
 		return config('tagging.tag_model', '\Conner\Tagging\Model\Tag');
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function taggedModelString()
+	{
+		return config('tagging.tagged_model', '\Conner\Tagging\Model\Tagged');
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function taggedUserModelString()
+	{
+		return config('tagging.tagged_user_model', '\Conner\Tagging\Model\TaggedUser');
 	}
 }
