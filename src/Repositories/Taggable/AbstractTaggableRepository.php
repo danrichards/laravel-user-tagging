@@ -9,7 +9,7 @@ use Dan\Tagging\Events\TaggedByUser;
 use Dan\Tagging\Collection;
 
 /**
- * Class AbstractTaggableRepository
+ * Class AbstractTaggableRepository // build test
  */
 abstract class AbstractTaggableRepository extends AbstractRepository implements TaggableInterface
 {
