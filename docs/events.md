@@ -4,15 +4,15 @@ Events
 The `Taggable` trait will fire off two events.
 
 ```php
-Conner\Tagging\Events\TagAdded;
+Dan\Tagging\Events\Tagged;
 
-Conner\Tagging\Events\TagRemoved;
+Dan\Tagging\Events\TaggedByUser;
 ```
 
 You can add listeners and track these events.
 
 ```php
-\Event::listen(Conner\Tagging\Events\TagAdded::class, function($article){
-	\Log::debug($article->title . ' was tagged');
+\Event::listen(Dan\Tagging\Events\Tagged::class, function($article) {
+    \Log::debug($article->title . ' was tagged');
 });
 ```

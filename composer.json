@@ -1,27 +1,35 @@
 {
-	"name": "rtconner/laravel-tagging",
-	"description": "Use PHP traits to extend Laravel Eloquent Models to allow Tags. Models can be marked as Taggable.",
+	"name": "dan/laravel-user-tagging",
+	"description": "User powered tagging system with caching support for the Laravel Framework.",
 	"license": "MIT",
-	"homepage": "https://smartersoftware.net/packages/laravel-tagging-taggable",
-	"keywords": ["tag", "tags", "tagging", "laravel", "taggable", "tagged", "eloquent", "laravel5"],
+	"homepage": "https://github.com/danrichards/laravel-user-tagging",
+	"keywords": ["user-tagging", "tag", "tags", "tagging", "laravel", "taggable", "tagged", "eloquent", "laravel5"],
 	"authors": [
 		{
-			"name": "Robert Conner",
-			"email": "rtconner@smarter.bz"
+			"name": "Dan Richards",
+			"email": "danrichardsri@gmail.com"
 		}
 	],
 	"require": {
 		"php": ">=5.5.0",
 		"illuminate/database": "~5.1",
-		"illuminate/support": "~5.1"
+		"illuminate/support": "~5.1",
+		"torann/laravel-repository": "^0.3.7"
 	},
 	"require-dev": {
+		"laravel/laravel": "~5.1",
 		"phpunit/phpunit": "~4.0",
-		"mockery/mockery": "~0.9"
+		"mockery/mockery": "~0.9",
+		"fzaninotto/faker": "^1.5"
 	},
 	"autoload": {
 		"psr-4": {
-			"Conner\\Tagging\\": "src/"
+			"Dan\\Tagging\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Dan\\Tagging\\Testing\\": "tests/"
 		}
 	}
 }

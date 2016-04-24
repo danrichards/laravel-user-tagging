@@ -1,26 +1,40 @@
 <?php
 
-return array(
-	
-	// Datatype for primary keys of your models.
-	// used in migrations only
-	'primary_keys_type' => 'integer', // 'string' or 'integer'
-		
-	// Value of are passed through this before save of tags
-	'normalizer' => '\Conner\Tagging\Util::slug',
-	
-	// Display value of tags are passed through (for front end display)
+return [
+
+	// For migrations, may be "integer" or "string"
+	'primary_keys_type' => 'integer',
+
+	// How we will slug our tags before persisting them.
+	'normalizer' => '\Dan\Tagging\Util::slug',
+
+	// How we will display (title) our tags before persisting them.
 	'displayer' => '\Illuminate\Support\Str::title',
-	
-	// Database connection for Conner\Taggable\Tag model to use
-// 	'connection' => 'mysql',
-	
-	// When deleting a model, remove all the tags first
-	'untag_on_delete' => true,
-		
-	// Auto-delete unused tags from the 'tags' database table (when they are used zero times)
-	'delete_unused_tags'=>true,
-		
-	// Model to use to store the tags in the database
-	'tag_model'=>'\Conner\Tagging\Model\Tag',
-);
+
+	// Taggable Interfaces for Abstract Taggable Repositories
+//	'taggable_interfaces' => [
+//		'\App\Models\SomeModel' => '\App\Repositories\SomeModels\SomeModelsInterface'
+//	],
+
+	// Repository Interface for Users Repository
+//	'users_interface' => '\Dan\Tagging\Repositories\Users\UsersInterface',
+
+	// Do not override unless you also override the Repository
+//	'user_model' => '\App\User',
+
+	// Repository Interface for Tags Repository
+//	'tags_interface' => '\Dan\Tagging\Repositories\Users\TagsInterface',
+
+	// Do not override unless you also override the Repository
+//	'tag_model' => '\Dan\Tagging\Models\Tag',
+
+	// Repository Interface for Tagged Repository
+//	'tagged_interface' => '\Dan\Tagging\Repositories\Tagged\TaggedInterface',
+
+	// Do not override unless you also override the Repository
+//	'tagged_model' => '\Dan\Tagging\Models\Tagged',
+
+	// Do not override unless you also override the Repository
+//	'tagged_user_model' => '\Dan\Tagging\Models\TaggedUser'
+
+];

@@ -1,98 +1,168 @@
 <?php
 
-namespace Conner\Tagging\Contracts;
+namespace Dan\Tagging\Contracts;
 
 /**
  * Interface of utility functions to help with various tagging functionality.
  *
+ * @author Dan Richards <danrichardsri@gmail.com>
  * @author Rob Conner <rtconner+gh@gmail.com>
  *
  * Copyright (C) 2015 Robert Conner
  */
 interface TaggingUtility
 {
-	
-	/**
-	 * Converts input into array
-	 *
-	 * @param array|string $tagNames
-	 * @return array
-	 */
-	public static function makeTagArray($tagNames);
 
 	/**
-	 * Build an array of slugs with various inputs.
+	 * Slug from a string with the instance.
 	 *
-	 * @param \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|\stdClass|array|string $tags
-	 * @return array
+	 * @param string $name
+	 * @return string
+	 */
+	public function slug($name);
+
+	/**
+	 * Make a slug from a string
+	 *
+	 * @param string $name
+	 * @return string
+	 */
+	public static function makeSlug($name);
+
+	/**
+	 * Array of slugs from various inputs
+	 *
+	 * @param \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model|\stdClass|array|string $tags
+	 * @return array [string]
+	 * @throws \InvalidArgumentException
+	 */
+	public function slugArray($tags);
+
+	/**
+	 * Make an array of slugs from various inputs
+	 *
+	 * @param \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model|\stdClass|array|string $tags
+	 * @return array [string]
 	 * @throws \InvalidArgumentException
 	 */
 	public static function makeSlugArray($tags);
 
 	/**
-	 * Create a web friendly URL slug from a string.
+	 * Title from a string with the instance
 	 *
-	 * Although supported, transliteration is discouraged because
-	 * 1) most web browsers support UTF-8 characters in URLs
-	 * 2) transliteration causes a loss of information
-	 *
-	 * @author Sean Murphy <sean@iamseanmurphy.com>
-	 *
-	 * @param string $str
+	 * @param string $name
 	 * @return string
 	 */
-	public static function slug($str);
+	public function title($name);
+
+	/**
+	 * Make a title from a string with static
+	 *
+	 * @param string $name
+	 * @return string
+	 */
+	public static function makeTitle($name);
+
+	/**
+	 * Array of titles from various inputs
+	 *
+	 * @param array|string $names
+	 * @return array
+	 */
+	public function titleArray($names);
+
+	/**
+	 * Make an array of titles from various inputs
+	 *
+	 * @param array|string $names
+	 * @return array
+	 * @throws \InvalidArgumentException
+	 */
+	public static function makeTitleArray($names);
+
+	/**
+	 * @return string
+	 */
+	public function usersRepositoryInterface();
+
+	/**
+	 * @param null $args
+	 * @return \App\User
+	 */
+	public function userModel($args = null);
+
+	/**
+	 * @return string
+	 */
+	public function userModelString();
+
+	/**
+	 * @return string
+	 */
+	public static function getUserModelString();
+
+	/**
+	 * @return string
+	 */
+	public function tagsRepositoryInterface();
 	
 	/**
-	 * Look at the tags table and delete any tags that are no longer in use by any taggable database rows.
-	 * Does not delete tags where 'suggest' is true
-	 *
-	 * @return int
-	 */
-	public function deleteUnusedTags();
-
-	/**
-	 * Return string with full namespace of the User model
-	 *
 	 * @return string
 	 */
-	public static function userModelString();
-	
+	public function tagModelString();
+
 	/**
-	 * Return string with full namespace of the Tag model
-	 *
 	 * @return string
 	 */
-	public static function tagModelString();
+	public static function getTagModelString();
 
 	/**
-	 * Return string with full namespace of the Tagged model
-	 *
+	 * @param null $args
+	 * @return \Dan\Tagging\Models\Tag
+	 */
+	public function tagModel($args = null);
+
+	/**
 	 * @return string
 	 */
-	public static function taggedModelString();
+	public function taggedRepositoryInterface();
 
 	/**
-	 * Return string with full namespace of the TaggedUser model
-	 *
+	 * @param null $args
+	 * @return \Dan\Tagging\Models\Tagged
+	 */
+	public function taggedModel($args = null);
+
+	/**
 	 * @return string
 	 */
-	public static function taggedUserModelString();
+	public function taggedModelString();
 
 	/**
-	 * Return normalized string or array.
-	 *
-	 * @param array|string $tagNames
-	 * @return array|string
+	 * @return string
 	 */
-	public static function normalize($tagNames);
+	public static function getTaggedModelString();
 
 	/**
-	 * Return display constraint for string or array.
-	 *
-	 * @param array|string $tagNames
-	 * @return array|string
+	 * @param null $args
+	 * @return \Dan\Tagging\Models\TaggedUser
 	 */
-	public static function display($tagNames);
+	public function taggedUserModel($args = null);
+
+	/**
+	 * @return string
+	 */
+	public function taggedUserModelString();
+
+	/**
+	 * @return string
+	 */
+	public static function getTaggedUserModelString();
+
+	/**
+	 * @param \Illuminate\Database\Eloquent\Model|string $model
+	 * @return string
+	 */
+	public function taggableRepositoryInterface($model);
 
 }
