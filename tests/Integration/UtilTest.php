@@ -12,11 +12,6 @@ class UtilTest extends IntegrationTestCase {
 
 	public function data_provider_test_it_makes_a_slug_array()
 	{
-		$tags = collect([
-			$this->seeded->tags['laravel'],
-			$this->seeded->tags['lumen'],
-			$this->seeded->tags['spark'],
-		]);
 		$tagged = collect([
 			new Tagged(['tag_slug' => 'laravel']),
 			new Tagged(['tag_slug' => 'lumen']),
@@ -27,7 +22,6 @@ class UtilTest extends IntegrationTestCase {
 			[['laravel', 'lumen', 'spark']],
 			['Laravel, Lumen, Spark'],
 			[['Laravel', 'Lumen', 'Spark']],
-			[$tags],
 			[$tagged]
 		];
 	}

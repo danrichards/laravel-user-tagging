@@ -257,13 +257,10 @@ class TaggableRepositoryTests extends IntegrationTestCase
 
     public function data_provider_test_it_is_tagged_by_with_model_user_tags()
     {
-        $lumen = new Tag(['slug' => 'lumen']);
-        $testing = new Tag(['slug' => 'testing']);
         return [
             ['lumen'],
             ['lumen,testing'],
             [['lumen', 'testing']],
-            collect([$lumen, $testing])
         ];
     }
 
