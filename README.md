@@ -4,7 +4,7 @@ Laravel User Tagging
 [![Latest Stable Version](https://poser.pugx.org/dan/laravel-user-tagging/v/stable.svg)](https://packagist.org/packages/dan/laravel-user-tagging)
 [![Total Downloads](https://poser.pugx.org/dan/laravel-user-tagging/downloads.svg)](https://packagist.org/packages/dan/laravel-user-tagging)
 [![License](https://poser.pugx.org/dan/laravel-user-tagging/license.svg)](https://packagist.org/packages/dan/laravel-user-tagging)
-[![Build Status](https://travis-ci.org/dan/laravel-user-tagging.svg?branch=master)](https://travis-ci.org/dan/laravel-user-tagging)
+[![Build Status](https://travis-ci.org/danrichards/laravel-user-tagging.svg?branch=master)](https://travis-ci.org/danrichards/laravel-user-tagging)
 
 This library provides a scalable method for tracking tags that are attached to
 a eloquent `Model` by your app's users. This allows for indexing content based
