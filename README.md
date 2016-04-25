@@ -24,7 +24,7 @@ on the repositories provided within.
 #### Getting Starting
 
 To use this library, you will need at least one repository using Torann's
-pattern. This library will encapsulate whatever `Model` your app needs to tag.
+pattern. This repository will encapsulate whatever `Model` your app needs to tag.
 I would recommend [setting up](https://github.com/Torann/laravel-repository)
 and testing this repository before continuing.
 

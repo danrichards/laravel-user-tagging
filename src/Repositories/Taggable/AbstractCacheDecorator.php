@@ -33,12 +33,13 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      * @param Model $taggable
      * @param Model $user
      * @param $tagNames
+     * @return mixed
      */
     public function tagForUser(Model $taggable, Model $user, $tagNames)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        $repo->tagForUser($taggable, $user, $tagNames);
+        return $this->getCache('tagForUser', func_get_args(), function () use ($taggable, $user, $tagNames) {
+            return $this->repo->tagForUser($taggable, $user, $tagNames);
+        });
     }
 
     /**
@@ -47,12 +48,13 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      * @param Model $taggable
      * @param Model $user
      * @param null $tagNames
+     * @return mixed
      */
     public function untagForUser(Model $taggable, Model $user, $tagNames)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        $repo->untagForUser($taggable, $user, $tagNames);
+        return $this->getCache('untagForUser', func_get_args(), function () use ($taggable, $user, $tagNames) {
+            return $this->repo->untagForUser($taggable, $user, $tagNames);
+        });
     }
 
     /**
@@ -61,12 +63,13 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      * @param Model $taggable
      * @param Model $user
      * @param $tagNames
+     * @return mixed
      */
     public function retagForUser(Model $taggable, Model $user, $tagNames)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        $repo->retagForUser($taggable, $user, $tagNames);
+        return $this->getCache('retagForUser', func_get_args(), function () use ($taggable, $user, $tagNames) {
+            return $this->repo->retagForUser($taggable, $user, $tagNames);
+        });
     }
 
     /**
@@ -77,9 +80,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function tagsFor(Model $taggable)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->tagsFor($taggable);
+        return $this->getCache('tagsFor', func_get_args(), function () use ($taggable) {
+            return $this->repo->tagsFor($taggable);
+        });
     }
 
     /**
@@ -90,9 +93,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function tagNamesFor(Model $taggable)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->tagNamesFor($taggable);
+        return $this->getCache('tagNamesFor', func_get_args(), function () use ($taggable) {
+            return $this->repo->tagNamesFor($taggable);
+        });
     }
 
     /**
@@ -103,9 +106,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function tagSlugsFor(Model $taggable)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->tagSlugsFor($taggable);
+        return $this->getCache('tagSlugsFor', func_get_args(), function () use ($taggable) {
+            return $this->repo->tagSlugsFor($taggable);
+        });
     }
 
     /**
@@ -116,9 +119,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function taggedFor(Model $taggable)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->taggedFor($taggable);
+        return $this->getCache('taggedFor', func_get_args(), function () use ($taggable) {
+            return $this->repo->taggedFor($taggable);
+        });
     }
 
     /**
@@ -130,9 +133,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function taggedColFor(Model $taggable, $col = 'tag_slug')
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->taggedColFor($taggable, $col);
+        return $this->getCache('taggedColFor', func_get_args(), function () use ($taggable, $col) {
+            return $this->repo->taggedColFor($taggable);
+        });
     }
 
     /**
@@ -143,9 +146,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function taggedIdsFor(Model $taggable)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->taggedIdsFor($taggable);
+        return $this->getCache('taggedIdsFor', func_get_args(), function () use ($taggable) {
+            return $this->repo->taggedIdsFor($taggable);
+        });
     }
 
     /**
@@ -155,9 +158,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function taggedForUser(Model $taggable, Model $user)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->taggedForUser($taggable, $user);
+        return $this->getCache('taggedForUser', func_get_args(), function () use ($taggable, $user) {
+            return $this->repo->taggedForUser($taggable, $user);
+        });
     }
 
     /**
@@ -169,9 +172,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function taggedIdsForUser(Model $taggable, Model $user)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->taggedIdsForUser($taggable, $user);
+        return $this->getCache('taggedIdsForUser', func_get_args(), function () use ($taggable, $user) {
+            return $this->repo->taggedIdsForUser($taggable, $user);
+        });
     }
 
     /**
@@ -184,9 +187,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function taggedColForUser(Model $taggable, Model $user, $col = 'tag_slug')
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->taggedColForUser($taggable, $user, $col);
+        return $this->getCache('taggedColForUser', func_get_args(), function () use ($taggable, $user) {
+            return $this->repo->taggedColForUser($taggable, $user);
+        });
     }
 
     /**
@@ -198,9 +201,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function tagsForUser(Model $taggable, Model $user)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->tagsForUser($taggable, $user);
+        return $this->getCache('tagsForUser', func_get_args(), function () use ($taggable, $user) {
+            return $this->repo->tagsForUser($taggable, $user);
+        });
     }
 
     /**
@@ -212,9 +215,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function tagSlugsForUser(Model $taggable, Model $user)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->tagSlugsForUser($taggable, $user);
+        return $this->getCache('tagSlugsForUser', func_get_args(), function () use ($taggable, $user) {
+            return $this->repo->tagSlugsForUser($taggable, $user);
+        });
     }
 
     /**
@@ -226,9 +229,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function tagNamesForUser(Model $taggable, Model $user)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->tagNamesForUser($taggable, $user);
+        return $this->getCache('tagNamesForUser', func_get_args(), function () use ($taggable, $user) {
+            return $this->repo->tagNamesForUser($taggable, $user);
+        });
     }
 
     /**
@@ -239,9 +242,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function userIdsWhoTagged(Model $taggable)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->userIdsWhoTagged($taggable);
+        return $this->getCache('userIdsWhoTagged', func_get_args(), function () use ($taggable) {
+            return $this->repo->userIdsWhoTagged($taggable);
+        });
     }
 
     /**
@@ -252,9 +255,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function usersWhoTagged(Model $taggable)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->usersWhoTagged($taggable);
+        return $this->getCache('usersWhoTagged', func_get_args(), function () use ($taggable) {
+            return $this->repo->usersWhoTagged($taggable);
+        });
     }
 
     /**
@@ -266,9 +269,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function isTaggedByUser(Model $taggable, $user)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->isTaggedByUser($taggable, $user);
+        return $this->getCache('isTaggedByUser', func_get_args(), function () use ($taggable, $user) {
+            return $this->repo->isTaggedByUser($taggable, $user);
+        });
     }
 
     /**
@@ -281,9 +284,9 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
      */
     public function isTaggedByUserWith(Model $taggable, $user, $tags)
     {
-        /** @var AbstractTaggableRepository $repo */
-        $repo = app($this->tagUtil()->taggableRepositoryInterface($this->getModel()));
-        return $repo->isTaggedByUserWith($taggable, $user, $tags);
+        return $this->getCache('isTaggedByUserWith', func_get_args(), function () use ($taggable, $user, $tags) {
+            return $this->repo->isTaggedByUserWith($taggable, $user, $tags);
+        });
     }
 
 }

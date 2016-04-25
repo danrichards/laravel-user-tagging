@@ -21,6 +21,9 @@ use Faker\Generator;
 abstract class IntegrationTestCase extends TestCase
 {
 
+    /** @var bool $cache */
+    public static $cache = false;
+
     /** @var \IntegrationTestsSeeder $seeded */
     public $seeded;
 
@@ -50,7 +53,12 @@ abstract class IntegrationTestCase extends TestCase
         $this->app['config']->set('database.default','sqlite');
         $this->app['config']->set('database.connections.sqlite.database', ':memory:');
 
-        $this->app['config']->set('repositories.cache.enabled', false);
+        if (self::$cache) {
+            $this->app['config']->set('repositories.cache.enabled', true);
+            $this->app['config']->set('cache.default', 'memcached');
+        } else {
+            $this->app['config']->set('repositories.cache.enabled', false);
+        }
 
         // Taggable Interfaces for Abstract Taggable Repositories
         $this->app['config']->set('tagging.taggable_interfaces', [

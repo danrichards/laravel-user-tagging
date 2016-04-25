@@ -31,7 +31,9 @@ class CacheDecorator extends AbstractCacheDecorator implements TagsInterface
      */
     public function usersFor($tag)
     {
-        return (new TagsRepository())->usersFor($tag);
+        return $this->getCache('usersFor', func_get_args(), function () use ($tag) {
+            return $this->repo->usersFor($tag);
+        });
     }
 
     /**
@@ -42,7 +44,9 @@ class CacheDecorator extends AbstractCacheDecorator implements TagsInterface
      */
     public function findTag($tag)
     {
-        return (new TagsRepository())->findTags($tag);
+        return $this->getCache('findTag', func_get_args(), function () use ($tag) {
+            return $this->repo->findTag($tag);
+        });
     }
 
     /**
@@ -53,7 +57,9 @@ class CacheDecorator extends AbstractCacheDecorator implements TagsInterface
      */
     public function findTags($tags)
     {
-        return (new TagsRepository())->findTags($tags);
+        return $this->getCache('findTags', func_get_args(), function () use ($tags) {
+            return $this->repo->findTags($tags);
+        });
     }
 
     /**
@@ -65,7 +71,9 @@ class CacheDecorator extends AbstractCacheDecorator implements TagsInterface
      */
     public function findOrCreate($name, &$tagWasCreated = null)
     {
-        return (new TagsRepository())->findOrCreate($name, $tagWasCreated = null);
+        return $this->getCache('findOrCreate', func_get_args(), function () use ($name, &$tagWasCreated) {
+            return $this->repo->findOrCreate($name, $tagWasCreated);
+        });
     }
 
     /**
@@ -76,6 +84,6 @@ class CacheDecorator extends AbstractCacheDecorator implements TagsInterface
      */
     public function recalculate(Model $tag)
     {
-        return (new TagsRepository())->recalculate($tag);
+        return $this->repo->recalculate($tag);
     }
 }

@@ -73,13 +73,6 @@ interface TaggableInterface extends RepositoryInterface
     public function taggedFor(Model $taggable);
 
     /**
-     * @param Model $taggable
-     * @param Model $user
-     * @return Collection [Tagged]
-     */
-    public function taggedForUser(Model $taggable, Model $user);
-
-    /**
      * Array of Tagged [__col__], related to the current Model
      *
      * @param Model $taggable
@@ -95,6 +88,13 @@ interface TaggableInterface extends RepositoryInterface
      * @return array [int]
      */
     public function taggedIdsFor(Model $taggable);
+
+    /**
+     * @param Model $taggable
+     * @param Model $user
+     * @return Collection [Tagged]
+     */
+    public function taggedForUser(Model $taggable, Model $user);
 
     /**
      * Array of Tagged [ids] in which a User has tagged this Model

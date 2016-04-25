@@ -13,13 +13,6 @@ interface UsersInterface extends RepositoryInterface
 
     /**
      * @param \App\User|Model|int $user
-     * @param string $taggedCol
-     * @return array [int]
-     */
-    public function taggedColFor($user, $taggedCol = 'id');
-
-    /**
-     * @param \App\User|Model|int $user
      * @return array[int]
      */
     public function tagsIdsFor($user);
@@ -32,15 +25,22 @@ interface UsersInterface extends RepositoryInterface
 
     /**
      * @param \App\User|Model|int $user
-     * @return array[int]
-     */
-    public function taggedIdsFor($user);
-
-    /**
-     * @param \App\User|Model|int $user
      * @return \Illuminate\Database\Eloquent\Collection [Tagged]
      */
     public function taggedFor($user);
+
+    /**
+     * @param \App\User|Model|int $user
+     * @param string $taggedCol
+     * @return array [int]
+     */
+    public function taggedColFor($user, $taggedCol = 'id');
+
+    /**
+     * @param \App\User|Model|int $user
+     * @return array[int]
+     */
+    public function taggedIdsFor($user);
 
     /**
      * Models that have been tagged by the user.

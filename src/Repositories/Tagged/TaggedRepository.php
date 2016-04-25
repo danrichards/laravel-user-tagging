@@ -26,7 +26,7 @@ class TaggedRepository extends AbstractRepository implements TaggedInterface
      * @param string $tag_slug
      * @return \Dan\Tagging\Models\Tagged|Model|null
      */
-    public static function findByModelKeySlug($taggable_type, $taggable_id, $tag_slug)
+    public function findByModelKeySlug($taggable_type, $taggable_id, $tag_slug)
     {
         /** @var  $util \Dan\Tagging\Contracts\TaggingUtility */
         $util = app(\Dan\Tagging\Contracts\TaggingUtility::class);
@@ -46,9 +46,9 @@ class TaggedRepository extends AbstractRepository implements TaggedInterface
      * @param \Dan\Tagging\Models\Tag|Model $tag
      * @return \Dan\Tagging\Models\Tagged|Model|null
      */
-    public static function findByTaggableTag(Model $taggable, Model $tag)
+    public function findByTaggableTag(Model $taggable, Model $tag)
     {
-        return static::findByModelKeySlug(
+        return $this->findByModelKeySlug(
             get_class($taggable),
             $taggable->getKey(),
             $tag->slug
@@ -63,7 +63,7 @@ class TaggedRepository extends AbstractRepository implements TaggedInterface
      * @param bool &$tagWasTagged 	Was the Tag was just Tagged?
      * @return \Dan\Tagging\Models\Tagged|Model
      */
-    public static function findByTaggableTagOrCreate(Model $taggable, Model $tag, &$tagWasTagged = null)
+    public function findByTaggableTagOrCreate(Model $taggable, Model $tag, &$tagWasTagged = null)
     {
         $tagWasTagged = empty($tagged = static::findByTaggableTag($taggable, $tag));
         if (! $tagWasTagged) {

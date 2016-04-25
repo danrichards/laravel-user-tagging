@@ -29,7 +29,9 @@ class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
      */
     public function tagsIdsFor($user)
     {
-        return (new UsersRepository())->tagsIdsFor($user);
+        return $this->getCache('tagsIdsFor', func_get_args(), function () use ($user) {
+            return $this->repo->tagsIdsFor($user);
+        });
     }
 
     /**
@@ -38,7 +40,10 @@ class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
      */
     public function tagsFor($user)
     {
-        return (new UsersRepository())->tagsFor($user);
+        dd(__CLASS__);
+        return $this->getCache('tagsFor', func_get_args(), function () use ($user) {
+            return $this->repo->tagsFor($user);
+        });
     }
 
     /**
@@ -47,7 +52,9 @@ class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
      */
     public function taggedIdsFor($user)
     {
-        return (new UsersRepository())->taggedIdsFor($user);
+        return $this->getCache('taggedIdsFor', func_get_args(), function () use ($user) {
+            return $this->repo->taggedIdsFor($user);
+        });
     }
 
     /**
@@ -56,7 +63,21 @@ class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
      */
     public function taggedFor($user)
     {
-        return (new UsersRepository())->taggedFor($user);
+        return $this->getCache('taggedFor', func_get_args(), function () use ($user) {
+            return $this->repo->taggedFor($user);
+        });
+    }
+
+    /**
+     * @param \App\User|Model|int $user
+     * @param string $taggedCol
+     * @return array [int]
+     */
+    public function taggedColFor($user, $taggedCol = 'id')
+    {
+        return $this->getCache('taggedFor', func_get_args(), function () use ($user) {
+            return $this->repo->taggedFor($user);
+        });
     }
 
     /**
@@ -67,6 +88,8 @@ class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
      */
     public function taggedTaggablesFor($user)
     {
-        return (new UsersRepository())->taggedTaggablesFor($user);
+        return $this->getCache('taggedTaggablesFor', func_get_args(), function () use ($user) {
+            return $this->repo->taggedTaggablesFor($user);
+        });
     }
 }

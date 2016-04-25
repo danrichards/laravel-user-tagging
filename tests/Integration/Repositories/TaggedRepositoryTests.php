@@ -39,7 +39,7 @@ class TaggedRepositoryTests extends IntegrationTestCase
             ->where('taggable_id', $id)
             ->first();
         
-        $tagged = $repo::findByModelKeySlug($class, $id, $eloquent->tag_slug);
+        $tagged = $repo->findByModelKeySlug($class, $id, $eloquent->tag_slug);
         
         $this->assertInstanceOf(Tagged::class, $tagged);
         $this->assertEquals($eloquent->toArray(), $tagged->toArray());
@@ -57,7 +57,7 @@ class TaggedRepositoryTests extends IntegrationTestCase
             ->where('tag_slug', $tag->slug)
             ->first();
 
-        $tagged = $repo::findByTaggableTag($taggable, $tag);
+        $tagged = $repo->findByTaggableTag($taggable, $tag);
 
         $this->assertInstanceOf(Tagged::class, $tagged);
         $this->assertEquals($eloquent->toArray(), $tagged->toArray());
@@ -77,7 +77,7 @@ class TaggedRepositoryTests extends IntegrationTestCase
 
         $this->assertNull($eloquentBefore);
 
-        $tagged = $repo::findByTaggableTagOrCreate($taggable, $tag);
+        $tagged = $repo->findByTaggableTagOrCreate($taggable, $tag);
 
         /** @var \Dan\Tagging\Models\Tagged $eloquent */
         $eloquent = Tagged::where('taggable_type', get_class($taggable))
@@ -112,9 +112,13 @@ class TaggedRepositoryTests extends IntegrationTestCase
         $expected = $this->seeded->posts['spark'];  // "Spark & Storage" Post
 
         $actual = $this->repo->taggableFor($tagged);
-
         $this->assertInstanceOf(Post::class, $actual);
-        $this->assertEquals($expected->toArray(), $actual->toArray());
+
+        $expected = $expected->toArray();
+        $actual = $actual->toArray();
+
+        unset($actual['created_at'], $actual['updated_at'], $expected['created_at'], $expected['updated_at']);
+        $this->assertEquals($expected, $actual);
     }
 
     public function test_it_gets_users_ids_for_model()

@@ -67,7 +67,6 @@ abstract class AbstractTaggableRepository extends AbstractRepository implements 
     {
         $tagNames = $this->tagUtil()->titleArray($tagNames);
         $currentTagNames = $this->tagsForUser($taggable, $user)->pluck('name')->all();
-
         $deletions = array_diff($currentTagNames, $tagNames);
         $slugsRemoved = $this->tagUtil()->slugArray($deletions);
         foreach ($slugsRemoved as $slug) {
@@ -98,7 +97,7 @@ abstract class AbstractTaggableRepository extends AbstractRepository implements 
         $tags = app($this->tagUtil()->tagsRepositoryInterface());
         $tag = $tags->findOrCreate($tagName, $tagWasCreated);
 
-        if (! $tagWasCreated && $this->isTaggedByWith($tag->slug, $taggable, $user)) {
+        if (! $tagWasCreated && $this->isTaggedByUserWith($taggable, $user, $tag->slug)) {
             return;		            // Nothing to do here.
         }
 

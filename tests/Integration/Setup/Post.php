@@ -3,7 +3,7 @@
 namespace Dan\Tagging\Testing\Integration\Setup;
 
 use Illuminate\Database\Eloquent\Model;
-use Dan\Tagging\Taggable;
+use Dan\Tagging\Traits\Taggable;
 
 /**
  * Class Post
