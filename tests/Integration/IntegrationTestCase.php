@@ -2,6 +2,7 @@
 
 namespace Dan\Tagging\Testing\Integration;
 
+use IntegrationTestsSeeder;
 use Torann\LaravelRepository\Providers\RepositoryServiceProvider;
 use Dan\Tagging\Testing\Integration\Setup\Users\UsersInterface;
 use Dan\Tagging\Testing\Integration\Setup\Posts\PostsInterface;
@@ -110,9 +111,10 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Run package database migrations
      *
+     * @param string $class Merely here to appease PHP Strict standards.
      * @return \IntegrationTestsSeeder
      */
-    public function seed()
+    public function seed($class = 'ignored')
     {
         $fileSystem = new Filesystem;
         $classFinder = new ClassFinder;
