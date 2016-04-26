@@ -2,7 +2,7 @@
 
 namespace Dan\Tagging\Repositories\Taggable;
 
-use Torann\LaravelRepository\Repositories\AbstractCacheDecorator as BaseAbstractCacheDecorator;
+use Dan\Tagging\Repositories\AbstractCacheDecorator as BaseAbstractCacheDecorator;
 use Dan\Tagging\Traits\Util as TaggingUtility;
 use Illuminate\Database\Eloquent\Model;
 use Dan\Tagging\Collection;
@@ -150,7 +150,7 @@ abstract class AbstractCacheDecorator extends BaseAbstractCacheDecorator impleme
             return $this->repo->taggedIdsFor($taggable);
         });
     }
-
+    
     /**
      * @param Model $taggable
      * @param Model $user

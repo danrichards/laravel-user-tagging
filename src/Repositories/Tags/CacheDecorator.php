@@ -3,7 +3,7 @@
 namespace Dan\Tagging\Repositories\Tags;
 
 use Illuminate\Database\Eloquent\Model;
-use Torann\LaravelRepository\Repositories\AbstractCacheDecorator;
+use Dan\Tagging\Repositories\AbstractCacheDecorator;
 
 /**
  * Class CacheDecorator

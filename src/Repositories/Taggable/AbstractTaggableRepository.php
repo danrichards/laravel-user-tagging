@@ -232,12 +232,11 @@ abstract class AbstractTaggableRepository extends AbstractRepository implements 
      */
     public function taggedForUser(Model $taggable, Model $user)
     {
-        $tagged = $this->tagUtil()->taggedModelString();
-        return $tagged::select('tagging_tagged.*')
+        return $this->tagUtil()->taggedModel()->select('tagging_tagged.*')
             ->join('tagging_tagged_user AS tu', 'tu.tagged_id', '=', 'tagging_tagged.id')
             ->where('taggable_id', $taggable->getKey())
-            ->where('taggable_type', get_class($taggable))
-            ->where('tu.user_id', $user->id)
+            ->where('taggable_type', $this->model)
+            ->where('tu.user_id', $user->getKey())
             ->groupBy('tu.id')
             ->get();
     }

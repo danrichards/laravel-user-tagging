@@ -2,10 +2,8 @@
 
 namespace Dan\Tagging\Repositories\Tagged;
 
-use Dan\Tagging\Repositories\Taggable\AbstractTaggableRepository;
-use Dan\Tagging\Repositories\Tags\TagsInterface;
 use Illuminate\Database\Eloquent\Model;
-use Torann\LaravelRepository\Repositories\AbstractCacheDecorator;
+use Dan\Tagging\Repositories\AbstractCacheDecorator;
 
 /**
  * Class CacheDecorator
