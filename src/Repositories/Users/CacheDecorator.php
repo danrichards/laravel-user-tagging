@@ -47,6 +47,21 @@ class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
     }
 
     /**
+     * Collection of tags with counts for user.
+     *
+     * @param \App\User|\Illuminate\Database\Eloquent\Model|int $user
+     * @param string $order
+     * @param string $sort
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function tagsForUserWithCounts($user, $order = 'my_count', $sort = 'ASC')
+    {
+        return $this->getCache('tagsForUserWithCounts', func_get_args(), function () use ($user) {
+            return $this->repo->tagsForUserWithCounts($user);
+        });
+    }
+
+    /**
      * @param \App\User|Model|int $user
      * @return array[int]
      */

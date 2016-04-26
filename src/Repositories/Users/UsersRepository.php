@@ -2,6 +2,7 @@
 
 namespace Dan\Tagging\Repositories\Users;
 
+use Illuminate\Database\Eloquent\Collection;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 use Dan\Tagging\Traits\Util as TaggingUtility;
 use Illuminate\Database\Eloquent\Model;
@@ -108,5 +109,37 @@ class UsersRepository extends AbstractRepository implements UsersInterface
         });
 
         return $taggables->unique();
+    }
+
+    /**
+     * Collection of tags with counts for user.
+     *
+     * @param \App\User|\Illuminate\Database\Eloquent\Model|int $user
+     * @param string $order
+     * @param string $sort
+     * @return Collection
+     */
+    public function tagsForUserWithCounts($user, $order = 'my_count', $sort = 'DESC')
+    {
+        $userModel = $this->tagUtil()->userModel();
+        $userId = $user instanceof $userModel ? $user->getKey() : $user;
+
+        return collect(
+            $this->tagUtil()->taggedUserModel()
+                ->select([
+                    'tagging_tagged.tag_slug AS slug',
+                    'tagging_tagged.tag_name AS name',
+                    \DB::raw('COUNT(tagging_tagged.tag_slug) AS my_count')
+                ])
+                ->join('tagging_tagged', 'tagging_tagged_user.tagged_id', '=', 'tagging_tagged.id')
+                ->groupBy([
+                    'tagging_tagged.tag_slug',
+                    'tagging_tagged.tag_name'
+                ])
+                ->where('tagging_tagged_user.user_id', $userId)
+                ->orderBy($order, $sort)
+                ->get()
+                ->toArray()
+        );
     }
 }

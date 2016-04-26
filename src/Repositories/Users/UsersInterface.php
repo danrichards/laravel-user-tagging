@@ -24,6 +24,16 @@ interface UsersInterface extends RepositoryInterface
     public function tagsFor($user);
 
     /**
+     * Collection of tags with counts for user.
+     *
+     * @param \App\User|\Illuminate\Database\Eloquent\Model|int $user
+     * @param string $order
+     * @param string $sort
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function tagsForUserWithCounts($user, $order = 'my_count', $sort = 'ASC');
+
+    /**
      * @param \App\User|Model|int $user
      * @return \Illuminate\Database\Eloquent\Collection [Tagged]
      */
