@@ -62,7 +62,8 @@ class TaggingServiceProvider extends ServiceProvider {
 
 		$taggables = $this->app['config']['tagging.taggable_interfaces'] ?: [];
 		foreach ($taggables as $model => $interface) {
-			$taggable = str_plural(array_last(explode('\\', $model)));
+			$name = explode('\\', $model);
+			$taggable = str_plural(end($name));
 			$this->app->bind($interface, function ($app) use ($createFunc, $taggable, $interface) {
 				return call_user_func_array([RepositoryFactory::class, $createFunc], [$taggable, $this->getNamespace($interface, 2)]);
 			});
