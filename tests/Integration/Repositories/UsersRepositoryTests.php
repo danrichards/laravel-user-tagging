@@ -57,7 +57,7 @@ class UsersRepositoryTests extends IntegrationTestCase
         $this->assertEquals([
                 'slug' => 'metaphors',
                 'name' => 'Metaphors',
-                'my_count' => '2'
+                'count' => '2'
             ],
             $tagCounts->first()
         );

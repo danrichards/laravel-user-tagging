@@ -31,7 +31,7 @@ interface UsersInterface extends RepositoryInterface
      * @param string $sort
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function tagsForUserWithCounts($user, $order = 'my_count', $sort = 'ASC');
+    public function tagsForUserWithCounts($user, $order = 'count', $sort = 'ASC');
 
     /**
      * @param \App\User|Model|int $user

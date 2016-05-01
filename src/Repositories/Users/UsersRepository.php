@@ -119,7 +119,7 @@ class UsersRepository extends AbstractRepository implements UsersInterface
      * @param string $sort
      * @return Collection
      */
-    public function tagsForUserWithCounts($user, $order = 'my_count', $sort = 'DESC')
+    public function tagsForUserWithCounts($user, $order = 'count', $sort = 'DESC')
     {
         $userModel = $this->tagUtil()->userModel();
         $userId = $user instanceof $userModel ? $user->getKey() : $user;
@@ -129,7 +129,7 @@ class UsersRepository extends AbstractRepository implements UsersInterface
                 ->select([
                     'tagging_tagged.tag_slug AS slug',
                     'tagging_tagged.tag_name AS name',
-                    \DB::raw('COUNT(tagging_tagged.tag_slug) AS my_count')
+                    \DB::raw('COUNT(tagging_tagged.tag_slug) AS count')
                 ])
                 ->join('tagging_tagged', 'tagging_tagged_user.tagged_id', '=', 'tagging_tagged.id')
                 ->groupBy([
