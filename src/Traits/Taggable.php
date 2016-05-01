@@ -14,7 +14,7 @@ use Dan\Tagging\RepositoryFactory;
 trait Taggable {
 
     /**
-     * @var \Dan\Tagging\TaggingUtility $util
+     * @var \Dan\Tagging\Util $util
      */
     protected $taggingUtility;
 
@@ -31,30 +31,6 @@ trait Taggable {
         return is_null($this->taggingUtility)
             ? $this->taggingUtility = app(TaggingUtility::class)
             : $this->taggingUtility;
-    }
-
-    /**
-     * Get a repository from a Model
-     *
-     * @param bool $withCache
-     * @return \Torann\LaravelRepository\Repositories\RepositoryInterface
-     * @throws \Exception
-     */
-    public function getRepository($withCache = true)
-    {
-        $withCache = is_null($withCache) ? config('repositories.cache.enabled', false) : $withCache;
-        if (is_null($this->repository)) {
-            $namespace = explode('\\', __CLASS__);
-            $name = str_plural(array_pop($namespace));
-            array_pop($namespace); // lose the 'Models'
-            array_push($namespace, 'Repositories');
-            $namespace = implode('\\', $namespace);
-            return $withCache
-                ? $this->repository = RepositoryFactory::createWithCache($name, $namespace)
-                : $this->repository = RepositoryFactory::create($name, $namespace);
-        } else {
-            return $this->repository;
-        }
     }
 
     /**
@@ -126,7 +102,7 @@ trait Taggable {
      */
     public function tagNamesForUser($user)
     {
-        return $this->getRepository()->taggedColForUser($this, 'tag_slug');
+        return $this->getRepository()->taggedColForUser($this, $user, 'tag_slug');
     }
 
     /**
@@ -137,7 +113,35 @@ trait Taggable {
      */
     public function tagSlugsForUser($user)
     {
-        return $this->getRepository()->tagSlugsForUser($user);
+        return $this->getRepository()->tagSlugsForUser($this, $user);
+    }
+
+    /**
+     * Get a repository from a Model
+     *
+     * @param bool $withCache
+     * @return \Dan\Tagging\Repositories\Taggable\AbstractTaggableRepository
+     * @throws \Exception
+     */
+    public function getRepository($withCache = true)
+    {
+        if (is_null($this->repository)) {
+
+            $namespace = explode('\\', __CLASS__);
+            $name = str_plural(array_pop($namespace));
+            array_pop($namespace); // lose the 'Models'
+            array_push($namespace, 'Repositories');
+            $namespace = implode('\\', $namespace);
+
+            $withCache = is_null($withCache)
+                ? config('repositories.cache.enabled', false) : $withCache;
+
+            return $withCache
+                ? $this->repository = RepositoryFactory::createWithCache($name, $namespace)
+                : $this->repository = RepositoryFactory::create($name, $namespace);
+        } else {
+            return $this->repository;
+        }
     }
 
 }
