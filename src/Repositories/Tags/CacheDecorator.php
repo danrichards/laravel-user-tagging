@@ -40,7 +40,7 @@ class CacheDecorator extends AbstractCacheDecorator implements TagsInterface
      * Tag Repository by slug.
      *
      * @param mixed $tag
-     * @return \Dan\Tagging\Repositories\Tags\TagsInterface|null
+     * @return \Dan\Tagging\Models\Tag|\Illuminate\Database\Eloquent\Model|null
      */
     public function findTag($tag)
     {

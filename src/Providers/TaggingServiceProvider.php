@@ -60,6 +60,11 @@ class TaggingServiceProvider extends ServiceProvider {
 			return call_user_func_array([RepositoryFactory::class, $createFunc], ['Tagged', $this->getNamespace($interface, 2)]);
 		});
 
+		$interface = $this->app['config']['tagging.tagged_user_interface'] ?: '\Dan\Tagging\Repositories\TaggedUser\TaggedUserInterface';
+		$this->app->bind($interface, function ($app) use ($createFunc, $interface) {
+			return call_user_func_array([RepositoryFactory::class, $createFunc], ['TaggedUser', $this->getNamespace($interface, 2)]);
+		});
+
 		$taggables = $this->app['config']['tagging.taggable_interfaces'] ?: [];
 		foreach ($taggables as $model => $interface) {
 			$name = explode('\\', $model);

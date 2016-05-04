@@ -81,6 +81,22 @@ interface TaggingUtility
 	public static function makeTitleArray($names);
 
 	/**
+	 * Fetch a user for an int or return the User model provided.
+	 *
+	 * @param $user
+	 * @return \App\User|\Illuminate\Database\Eloquent\Model
+	 */
+	public function user($user);
+
+	/**
+	 * Fetch a user id for a Model or return the user id provided.
+	 *
+	 * @param $user
+	 * @return \App\User|\Illuminate\Database\Eloquent\Model
+	 */
+	public function userId($user);
+
+	/**
 	 * @return string
 	 */
 	public function usersRepositoryInterface();
@@ -105,7 +121,7 @@ interface TaggingUtility
 	 * @return string
 	 */
 	public function tagsRepositoryInterface();
-	
+
 	/**
 	 * @return string
 	 */
@@ -142,6 +158,11 @@ interface TaggingUtility
 	 * @return string
 	 */
 	public static function getTaggedModelString();
+
+	/**
+	 * @return \Dan\Tagging\Repositories\TaggedUser\TaggedUserRepository
+	 */
+	public function taggedUserRepositoryInterface();
 
 	/**
 	 * @param null $args

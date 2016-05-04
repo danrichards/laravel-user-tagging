@@ -4,6 +4,7 @@ namespace Dan\Tagging;
 
 use Dan\Tagging\Contracts\TaggingUtility;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 /**
  * Class Util
@@ -48,6 +49,9 @@ class Util implements TaggingUtility
 	/** @var string $taggedModelString */
 	private $taggedModelString;
 
+	/** @var string $taggedUserRepositoryInterface */
+	private $taggedUserRepositoryInterface;
+
 	/** @var string $taggedUserModelString */
 	private $taggedUserModelString;
 
@@ -85,7 +89,7 @@ class Util implements TaggingUtility
 	 *
 	 * @param \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model|\stdClass|array|string $tags
 	 * @return array [string]
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function slugArray($tags)
 	{
@@ -97,7 +101,7 @@ class Util implements TaggingUtility
 	 *
 	 * @param \Illuminate\Support\Collection|Model|\stdClass|array|string $tags
 	 * @return array [string]
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public static function makeSlugArray($tags) {
 		// A string, possibly comma delimited, possibly still names
@@ -122,7 +126,7 @@ class Util implements TaggingUtility
 				if(! empty($first->slug)) {
 					return $tags->pluck('slug')->all();
 				}
-				throw new \InvalidArgumentException('Collection must have slug or tag_slug key.');
+				throw new InvalidArgumentException('Collection must have slug or tag_slug key.');
 			} else {
 				return [];
 			}
@@ -132,7 +136,7 @@ class Util implements TaggingUtility
 			return (array)$tags->tag_slug;
 		}
 
-		throw new \InvalidArgumentException('The $tags argument must be Collection|array|string or class with slug attribute|property.');
+		throw new InvalidArgumentException('The $tags argument must be Collection|array|string or class with slug attribute|property.');
 	}
 
 	/**
@@ -177,7 +181,7 @@ class Util implements TaggingUtility
 	 *
 	 * @param array|string $names
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public static function makeTitleArray($names)
 	{
@@ -191,12 +195,54 @@ class Util implements TaggingUtility
 	}
 
 	/**
+	 * Fetch a user for an int or return the User model provided.
+	 *
+	 * @param $user
+	 * @return \App\User|\Illuminate\Database\Eloquent\Model
+	 */
+	public function user($user)
+	{
+		$userModel = $this->userModelString();
+		if ($user instanceof $userModel) {
+			return $user;
+		}
+		
+		if (is_numeric($user)) {
+			/** @var \App\Gistribute\Repositories\Users\UsersRepository $users */
+			$users = app($this->usersRepositoryInterface());
+			return $users->find($user);
+		}
+
+		throw new InvalidArgumentException("Integer user id or instanceof {$userModel} required.");
+	}
+
+	/**
+	 * Fetch a user for an int or return the User model provided.
+	 *
+	 * @param $user
+	 * @return \App\User|\Illuminate\Database\Eloquent\Model
+	 */
+	public function userId($user)
+	{
+		if (is_numeric($user)) {
+			return $user;
+		}
+
+		$userModel = $this->userModelString();
+		if ($user instanceof $userModel) {
+			return $user->getKey();
+		}
+
+		throw new InvalidArgumentException("Integer user id or instanceof {$userModel} required.");
+	}
+
+	/**
 	 * @return string
 	 */
 	public function usersRepositoryInterface()
 	{
 		return is_null($this->usersRepositoryInterface)
-			? $this->usersRepositoryInterface = config('tagging.users_interface', '\Dan\Tagging\Repositories\Users\UsersRepositoryInterface')
+			? $this->usersRepositoryInterface = ltrim(config('tagging.users_interface', 'Dan\Tagging\Repositories\Users\UsersRepositoryInterface'), '\\')
 			: $this->usersRepositoryInterface;
 	}
 
@@ -224,7 +270,7 @@ class Util implements TaggingUtility
 	 */
 	public static function getUserModelString()
 	{
-		return config('tagging.user_model', '\App\User');
+		return ltrim(config('tagging.user_model', 'App\User'), '\\');
 	}
 
 	/**
@@ -233,7 +279,7 @@ class Util implements TaggingUtility
 	public function tagsRepositoryInterface()
 	{
 		return is_null($this->tagsRepositoryInterface)
-			? $this->tagsRepositoryInterface = config('tagging.tags_interface', '\Dan\Tagging\Repositories\Tags\TagsInterface')
+			? $this->tagsRepositoryInterface = ltrim(config('tagging.tags_interface', 'Dan\Tagging\Repositories\Tags\TagsInterface'), '\\')
 			: $this->tagsRepositoryInterface;
 	}
 
@@ -252,7 +298,7 @@ class Util implements TaggingUtility
 	public function tagModelString()
 	{
 		return is_null($this->tagModelString)
-			? $this->tagModelString = static::getTagModelString()
+			? $this->tagModelString = ltrim(static::getTagModelString(), '\\')
 			: $this->tagModelString;
 	}
 
@@ -261,7 +307,7 @@ class Util implements TaggingUtility
 	 */
 	public static function getTagModelString()
 	{
-		return config('tagging.tag_model', '\Dan\Tagging\Models\Tag');
+		return ltrim(config('tagging.tag_model', 'Dan\Tagging\Models\Tag'), '\\');
 	}
 
 	/**
@@ -270,7 +316,7 @@ class Util implements TaggingUtility
 	public function taggedRepositoryInterface()
 	{
 		return is_null($this->taggedRepositoryInterface)
-			? $this->taggedRepositoryInterface = config('tagging.tagged_interface', '\Dan\Tagging\Repositories\Tagged\TaggedInterface')
+			? $this->taggedRepositoryInterface = ltrim(config('tagging.tagged_interface', 'Dan\Tagging\Repositories\Tagged\TaggedInterface'), '\\')
 			: $this->taggedRepositoryInterface;
 	}
 
@@ -289,7 +335,7 @@ class Util implements TaggingUtility
 	public function taggedModelString()
 	{
 		return is_null($this->taggedModelString)
-			? $this->taggedModelString = static::getTaggedModelString()
+			? $this->taggedModelString = ltrim(static::getTaggedModelString(), '\\')
 			: $this->taggedModelString;
 	}
 
@@ -298,7 +344,17 @@ class Util implements TaggingUtility
 	 */
 	public static function getTaggedModelString()
 	{
-		return config('tagging.tagged_model', '\Dan\Tagging\Models\Tagged');
+		return ltrim(config('tagging.tagged_model', 'Dan\Tagging\Models\Tagged'), '\\');
+	}
+
+	/**
+	 * @return \Dan\Tagging\Repositories\TaggedUser\TaggedUserRepository
+	 */
+	public function taggedUserRepositoryInterface()
+	{
+		return is_null($this->taggedUserRepositoryInterface)
+			? $this->taggedUserRepositoryInterface = ltrim(config('tagging.tagged_user_interface', 'Dan\Tagging\Repositories\TaggedUser\TaggedUserInterface'), '\\')
+			: $this->taggedUserRepositoryInterface;
 	}
 
 	/**
@@ -316,7 +372,7 @@ class Util implements TaggingUtility
 	public function taggedUserModelString()
 	{
 		return is_null($this->taggedUserModelString)
-			? $this->taggedUserModelString = static::getTaggedUserModelString()
+			? $this->taggedUserModelString = ltrim(static::getTaggedUserModelString(), '\\')
 			: $this->taggedUserModelString;
 	}
 
@@ -325,7 +381,7 @@ class Util implements TaggingUtility
 	 */
 	public static function getTaggedUserModelString()
 	{
-		return config('tagging.tagged_user_model', '\Dan\Tagging\Models\TaggedUser');
+		return ltrim(config('tagging.tagged_user_model', 'Dan\Tagging\Models\TaggedUser'), '\\');
 	}
 
 	/**
@@ -346,7 +402,7 @@ class Util implements TaggingUtility
 			}
 		}
 		
-		throw new \InvalidArgumentException("Interface for $model could not be resolved.");
+		throw new InvalidArgumentException("Interface for $model could not be resolved.");
 	}
 
 }

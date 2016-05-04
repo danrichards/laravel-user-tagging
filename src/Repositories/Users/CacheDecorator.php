@@ -40,7 +40,6 @@ class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
      */
     public function tagsFor($user)
     {
-        dd(__CLASS__);
         return $this->getCache('tagsFor', func_get_args(), function () use ($user) {
             return $this->repo->tagsFor($user);
         });

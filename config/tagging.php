@@ -34,6 +34,9 @@ return [
 	// Do not override unless you also override the Repository
 //	'tagged_model' => '\Dan\Tagging\Models\Tagged',
 
+	// Repository Interface for Tagged Repository
+//	'tagged_user_interface' => '\Dan\Tagging\Repositories\TaggedUser\TaggedUserInterface',
+
 	// Do not override unless you also override the Repository
 //	'tagged_user_model' => '\Dan\Tagging\Models\TaggedUser'
 

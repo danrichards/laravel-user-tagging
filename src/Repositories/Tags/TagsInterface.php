@@ -23,7 +23,7 @@ interface TagsInterface extends RepositoryInterface
      * Tag Repository by slug.
      *
      * @param mixed $tag
-     * @return \Dan\Tagging\Repositories\Tags\TagsInterface|null
+     * @return \Dan\Tagging\Models\Tag|\Illuminate\Database\Eloquent\Model|null
      */
     public function findTag($tag);
 
@@ -31,7 +31,7 @@ interface TagsInterface extends RepositoryInterface
      * Collection of Tag Repositories by an array of slugs.
      *
      * @param mixed $tags
-     * @return \Illuminate\Database\Eloquent\Collection [\Dan\Tagging\Repositories\Tags\TagsInterface]
+     * @return \Illuminate\Database\Eloquent\Collection [\Dan\Tagging\Models\Tag|\Illuminate\Database\Eloquent\Model]
      */
     public function findTags($tags);
 
@@ -40,7 +40,7 @@ interface TagsInterface extends RepositoryInterface
      *
      * @param string $name
      * @param bool &$tagWasCreated 		Was the Tag was just created?
-     * @return \Dan\Tagging\Repositories\Tags\TagsRepository
+     * @return \Dan\Tagging\Models\Tag|\Illuminate\Database\Eloquent\Model|null
      */
     public function findOrCreate($name, &$tagWasCreated = null);
 
