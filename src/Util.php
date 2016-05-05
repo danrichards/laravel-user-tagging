@@ -203,7 +203,7 @@ class Util implements TaggingUtility
 	public function user($user)
 	{
 		$userModel = $this->userModelString();
-		if ($user instanceof $userModel) {
+		if (is_object($user) && $user instanceof $userModel) {
 			return $user;
 		}
 		
