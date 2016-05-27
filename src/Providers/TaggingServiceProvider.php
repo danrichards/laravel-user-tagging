@@ -2,10 +2,10 @@
 
 namespace Dan\Tagging\Providers;
 
-use Dan\Tagging\Contracts\TaggingUtility;
-use Illuminate\Support\ServiceProvider;
-use Dan\Tagging\RepositoryFactory;
 use Dan\Tagging\Util;
+use Dan\Tagging\RepositoryFactory;
+use Illuminate\Support\ServiceProvider;
+use Dan\Tagging\Contracts\TaggingUtility;
 
 /**
  * Copyright (C) 2014 Robert Conner

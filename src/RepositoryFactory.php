@@ -2,8 +2,8 @@
 
 namespace Dan\Tagging;
 
-use Torann\LaravelRepository\Cache\LaravelCache;
 use Exception;
+use Torann\LaravelRepository\Cache\LaravelCache;
 
 class RepositoryFactory
 {

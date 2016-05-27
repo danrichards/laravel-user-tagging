@@ -2,9 +2,9 @@
 
 namespace Dan\Tagging\Traits;
 
-use Dan\Tagging\Contracts\TaggingUtility;
-use Illuminate\Database\Eloquent\Model;
 use Dan\Tagging\RepositoryFactory;
+use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Contracts\TaggingUtility;
 
 /**
  * Copyright (C) 2014 Robert Conner

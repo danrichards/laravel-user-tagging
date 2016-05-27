@@ -4,9 +4,10 @@ namespace Dan\Tagging\Testing\Integration\Repositories;
 
 use Dan\Tagging\Models\Tag;
 use Dan\Tagging\Models\Tagged;
+use Dan\Tagging\Repositories\Tagged\TaggedRepository;
+use Illuminate\Support\Collection;
 use Dan\Tagging\Repositories\Tags\TagsInterface;
 use Dan\Tagging\Testing\Integration\IntegrationTestCase;
-use Illuminate\Support\Collection;
 
 /**
  * Class TagsRepositoryTests
@@ -100,7 +101,7 @@ class TagsRepositoryTests extends IntegrationTestCase
         $this->assertEquals(1, $tag->count);
 
         // Tag something
-        factory(\Dan\Tagging\Models\Tagged::class)->create([
+        $tagged = factory(\Dan\Tagging\Models\Tagged::class)->create([
             'taggable_id' => $this->seeded->posts['lumen']->getKey(),
             'taggable_type' => get_class($this->seeded->posts['spark']),
             'tag_name' => $this->seeded->tags['laravel']->name,
@@ -108,7 +109,10 @@ class TagsRepositoryTests extends IntegrationTestCase
         ]);
 
         // Verify count is 2 after recalculating
-        $this->repo->recalculate($tag);
+        $this->repo->recalculateFor($tag);
+
+        // Verify count is 2 after recalculating
+        $this->repo->recalculateFor($tag);
         $tag = Tag::where('slug', 'laravel')->first();
         $this->assertEquals(2, $tag->count);
     }

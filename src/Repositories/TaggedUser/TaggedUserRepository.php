@@ -2,9 +2,9 @@
 
 namespace Dan\Tagging\Repositories\TaggedUser;
 
-use Torann\LaravelRepository\Repositories\AbstractRepository;
-use Dan\Tagging\Traits\Util as TaggingUtility;
 use Dan\Tagging\Models\TaggedUser;
+use Dan\Tagging\Traits\Util as TaggingUtility;
+use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 /**
  * Class TaggedUserRepository

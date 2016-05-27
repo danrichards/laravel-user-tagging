@@ -2,10 +2,10 @@
 
 namespace Dan\Tagging\Repositories\Tagged;
 
-use Torann\LaravelRepository\Repositories\AbstractRepository;
-use Dan\Tagging\Traits\Util as TaggingUtility;
-use Illuminate\Database\Eloquent\Model;
 use Dan\Tagging\Models\Tagged;
+use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Traits\Util as TaggingUtility;
+use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 /**
  * Class TaggedRepository

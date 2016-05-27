@@ -2,9 +2,9 @@
 
 namespace Dan\Tagging;
 
-use Dan\Tagging\Contracts\TaggingUtility;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Contracts\TaggingUtility;
 
 /**
  * Class Util

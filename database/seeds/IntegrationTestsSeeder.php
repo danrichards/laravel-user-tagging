@@ -172,13 +172,6 @@ class IntegrationTestsSeeder extends Seeder
         $inspired['heroes'] = factory(\Dan\Tagging\Models\Tagged::class)->create(['taggable_id' => $this->posts['inspired']->getKey(), 'taggable_type' => get_class($this->posts['inspired']), 'tag_name' => $tags['heroes']->name, 'tag_slug' => $tags['heroes']->slug]);
         $inspired['inspiration'] = factory(\Dan\Tagging\Models\Tagged::class)->create(['taggable_id' => $this->posts['inspired']->getKey(), 'taggable_type' => get_class($this->posts['inspired']), 'tag_name' => $tags['inspiration']->name, 'tag_slug' => $tags['inspiration']->slug]);
 
-        // Calculate the number of times a each tag is used on a Model
-        foreach($tags as $tag) {
-            /** @var \Dan\Tagging\Models\Tag $t */
-            $tag->recalculate();
-        }
-        $this->tags = $tags;
-
         // Data for the `tagging_tagged_user` table
 
         /**
@@ -247,10 +240,18 @@ class IntegrationTestsSeeder extends Seeder
             array_values($inspired)
         );
 
+        // Calculate how many users have tagged each model / tag
         foreach($tagged as &$tg) {
             /** @var \Dan\Tagging\Models\Tagged $tg */
             $tg->recalculate();
         }
+
+        // Calculate how many times a tag has been used.
+        foreach($tags as $tag) {
+            /** @var \Dan\Tagging\Models\Tag $t */
+            $tag->recalculate();
+        }
+        $this->tags = $tags;
 
         $this->tagged = $tagged;
     }

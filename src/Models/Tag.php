@@ -2,10 +2,10 @@
 
 namespace Dan\Tagging\Models;
 
-use Dan\Tagging\Traits\Util as TaggingUtility;
-use Dan\Tagging\Traits\RepositoryFromModel;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
+use Dan\Tagging\Traits\RepositoryFromModel;
+use Dan\Tagging\Traits\Util as TaggingUtility;
 
 /**
  * Class Tag
@@ -38,6 +38,7 @@ class Tag extends Model
 	{
 		$this->count = $this->tagUtil()->taggedModel()
 			->where('tag_slug', $this->slug)
+			->where('users_count', '>', 0)
 			->count();
 		$this->save();
 		return $this;

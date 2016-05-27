@@ -2,9 +2,9 @@
 
 namespace Dan\Tagging\Models;
 
-use Dan\Tagging\Traits\Util as TaggingUtility;
-use Dan\Tagging\Traits\RepositoryFromModel;
 use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Traits\RepositoryFromModel;
+use Dan\Tagging\Traits\Util as TaggingUtility;
 
 /**
  * Class TaggedUser

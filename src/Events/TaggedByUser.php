@@ -2,8 +2,8 @@
 
 namespace Dan\Tagging\Events;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TaggedByUser

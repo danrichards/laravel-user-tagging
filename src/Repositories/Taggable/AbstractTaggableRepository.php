@@ -2,11 +2,14 @@
 
 namespace Dan\Tagging\Repositories\Taggable;
 
-use Torann\LaravelRepository\Repositories\AbstractRepository;
-use Dan\Tagging\Traits\Util as TaggingUtility;
-use Illuminate\Database\Eloquent\Model;
-use Dan\Tagging\Events\TaggedByUser;
 use Dan\Tagging\Collection;
+use Dan\Tagging\Models\TaggedUser;
+use Dan\Tagging\Events\TaggedByUser;
+use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Traits\Util as TaggingUtility;
+use Dan\Tagging\Repositories\Tags\TagsRepository;
+use Dan\Tagging\Repositories\Tagged\TaggedRepository;
+use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 /**
  * Class AbstractTaggableRepository // build test
@@ -33,6 +36,7 @@ abstract class AbstractTaggableRepository extends AbstractRepository implements 
 
         $slugsAdded = $this->tagUtil()->slugArray($tagNames);
         $slugsRemoved = [];
+
         event(new TaggedByUser($taggable, $user, $slugsAdded, $slugsRemoved));
     }
 
@@ -53,6 +57,7 @@ abstract class AbstractTaggableRepository extends AbstractRepository implements 
 
         $slugsAdded = [];
         $slugsRemoved = $this->tagUtil()->slugArray($tagNames);
+
         event(new TaggedByUser($taggable, $user, $slugsAdded, $slugsRemoved));
     }
 
@@ -129,6 +134,7 @@ abstract class AbstractTaggableRepository extends AbstractRepository implements 
      */
     private function removeTagForUser(Model $taggable, Model $user, $slug)
     {
+        /** @var TaggedUser $taggedUser */
         $taggedUser = $this->tagUtil()->taggedUserModelString();
         $taggedUserIds = $taggedUser::select('tagging_tagged_user.*')
             ->join('tagging_tagged', 'tagging_tagged.id', '=', 'tagging_tagged_user.tagged_id')
@@ -141,6 +147,16 @@ abstract class AbstractTaggableRepository extends AbstractRepository implements 
             ->all();
 
         $taggedUser::destroy($taggedUserIds);
+
+        /** @var TagsRepository $tagsRepo */
+        $tagsRepo = app($this->tagUtil()->tagsRepositoryInterface());
+        $tag = $tagsRepo->findTag($slug);
+
+        /** @var TaggedRepository $taggedRepo */
+        $taggedRepo = app($this->tagUtil()->taggedRepositoryInterface());
+        $taggedRepo->recalculateFor($taggedRepo->findByTaggableTag($taggable, $tag));
+
+        $tagsRepo->recalculateFor($tag);
     }
 
     /**

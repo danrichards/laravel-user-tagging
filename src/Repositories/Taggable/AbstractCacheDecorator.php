@@ -2,10 +2,10 @@
 
 namespace Dan\Tagging\Repositories\Taggable;
 
-use Dan\Tagging\Repositories\AbstractCacheDecorator as BaseAbstractCacheDecorator;
-use Dan\Tagging\Traits\Util as TaggingUtility;
-use Illuminate\Database\Eloquent\Model;
 use Dan\Tagging\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Traits\Util as TaggingUtility;
+use Dan\Tagging\Repositories\AbstractCacheDecorator as BaseAbstractCacheDecorator;
 
 /**
  * Class CacheDecorator

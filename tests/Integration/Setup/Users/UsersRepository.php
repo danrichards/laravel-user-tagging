@@ -3,8 +3,8 @@
 namespace Dan\Tagging\Testing\Integration\Setup\Users;
 
 use App\User;
-use Dan\Tagging\Repositories\Users\UsersRepository as BaseUsersRepository;
 use Dan\Tagging\Repositories\Users\UsersInterface as BaseUsersInterface;
+use Dan\Tagging\Repositories\Users\UsersRepository as BaseUsersRepository;
 
 class UsersRepository extends BaseUsersRepository implements BaseUsersInterface
 {

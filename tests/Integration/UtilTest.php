@@ -2,8 +2,8 @@
 
 namespace Dan\Tagging\Testing\Integration;
 
-use Dan\Tagging\Models\Tagged;
 use Dan\Tagging\Util;
+use Dan\Tagging\Models\Tagged;
 
 /**
  * Class UtilTest

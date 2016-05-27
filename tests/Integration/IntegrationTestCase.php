@@ -2,17 +2,17 @@
 
 namespace Dan\Tagging\Testing\Integration;
 
+use Faker\Generator;
 use IntegrationTestsSeeder;
-use Torann\LaravelRepository\Providers\RepositoryServiceProvider;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\ClassFinder;
+use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Foundation\Testing\TestCase;
+use Dan\Tagging\Testing\Integration\Setup\User;
+use Dan\Tagging\Providers\TaggingServiceProvider;
 use Dan\Tagging\Testing\Integration\Setup\Users\UsersInterface;
 use Dan\Tagging\Testing\Integration\Setup\Posts\PostsInterface;
-use Dan\Tagging\Providers\TaggingServiceProvider;
-use Dan\Tagging\Testing\Integration\Setup\User;
-use Illuminate\Foundation\Testing\TestCase;
-use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Filesystem\ClassFinder;
-use Illuminate\Filesystem\Filesystem;
-use Faker\Generator;
+use Torann\LaravelRepository\Providers\RepositoryServiceProvider;
 
 /**
  * Class IntegrationTestCase

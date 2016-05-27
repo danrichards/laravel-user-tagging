@@ -4,11 +4,11 @@ namespace Dan\Tagging\Testing\Integration\Repositories;
 
 use Dan\Tagging\Models\Tag;
 use Dan\Tagging\Models\Tagged;
-use Dan\Tagging\Testing\Integration\Setup\Post;
-use Dan\Tagging\Testing\Integration\Setup\Users\UsersInterface;
-use Dan\Tagging\Testing\Integration\IntegrationTestCase;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
+use Dan\Tagging\Testing\Integration\Setup\Post;
+use Dan\Tagging\Testing\Integration\IntegrationTestCase;
+use Dan\Tagging\Testing\Integration\Setup\Users\UsersInterface;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 /**
  * Class UsersRepositoryTests

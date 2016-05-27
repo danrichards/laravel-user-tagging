@@ -2,11 +2,11 @@
 
 namespace Dan\Tagging\Repositories\Tags;
 
-use Torann\LaravelRepository\Repositories\AbstractRepository;
-use Dan\Tagging\Traits\Util as TaggingUtility;
-use Illuminate\Database\Eloquent\Model;
 use Dan\Tagging\Collection;
 use Dan\Tagging\Models\Tag;
+use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Traits\Util as TaggingUtility;
+use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 /**
  * Class TagsRepository
@@ -107,7 +107,7 @@ class TagsRepository extends AbstractRepository implements TagsInterface
      * @param \Dan\Tagging\Models\Tag|Model $tag
      * @return \Dan\Tagging\Models\Tag|Model $tag
      */
-    public function recalculate(Model $tag)
+    public function recalculateFor(Model $tag)
     {
         return $tag->recalculate();
     }

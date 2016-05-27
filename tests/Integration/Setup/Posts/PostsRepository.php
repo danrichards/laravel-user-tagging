@@ -2,8 +2,8 @@
 
 namespace Dan\Tagging\Testing\Integration\Setup\Posts;
 
-use Dan\Tagging\Repositories\Taggable\AbstractTaggableRepository;
 use Dan\Tagging\Testing\Integration\Setup\Post;
+use Dan\Tagging\Repositories\Taggable\AbstractTaggableRepository;
 
 /**
  * Class PostsRepository

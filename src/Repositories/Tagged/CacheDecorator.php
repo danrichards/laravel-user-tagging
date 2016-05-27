@@ -2,8 +2,8 @@
 
 namespace Dan\Tagging\Repositories\Tagged;
 
-use Dan\Tagging\Repositories\AbstractCacheDecorator;
 use Illuminate\Database\Eloquent\Model;
+use Dan\Tagging\Repositories\AbstractCacheDecorator;
 
 /**
  * Class CacheDecorator

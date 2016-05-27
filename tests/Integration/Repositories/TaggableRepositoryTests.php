@@ -5,11 +5,11 @@ namespace Dan\Tagging\Testing\Integration\Repositories;
 use Dan\Tagging\Models\Tag;
 use Dan\Tagging\Models\Tagged;
 use Dan\Tagging\Models\TaggedUser;
-use Dan\Tagging\Testing\Integration\Setup\Posts\PostsInterface;
-use Dan\Tagging\Testing\Integration\IntegrationTestCase;
-use Dan\Tagging\Repositories\Tagged\TaggedInterface;
-use Dan\Tagging\Testing\Integration\Setup\User;
 use Illuminate\Database\Eloquent\Collection;
+use Dan\Tagging\Testing\Integration\Setup\User;
+use Dan\Tagging\Repositories\Tagged\TaggedInterface;
+use Dan\Tagging\Testing\Integration\IntegrationTestCase;
+use Dan\Tagging\Testing\Integration\Setup\Posts\PostsInterface;
 
 /**
  * Class TaggableRepositoryTests

@@ -82,7 +82,7 @@ class CacheDecorator extends AbstractCacheDecorator implements TagsInterface
      * @param \Dan\Tagging\Models\Tag|Model $tag
      * @return \Dan\Tagging\Models\Tag|Model $tag
      */
-    public function recalculate(Model $tag)
+    public function recalculateFor(Model $tag)
     {
         return $this->repo->recalculate($tag);
     }
