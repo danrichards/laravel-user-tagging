@@ -16,7 +16,7 @@ class CreateTaggedTable extends Migration {
 			$table->string('taggable_type', 255)->index();
 			$table->string('tag_name', 255);
 			$table->string('tag_slug', 255)->index();
-			$table->integer('users_count')->unsigned()->default(0);
+			$table->integer('users_count')->unsigned()->default(1);
 			$table->index(['taggable_type', 'taggable_id', 'tag_slug'], 'tagged_tagged_model_id_tag_unique_index');
 		});
 	}
