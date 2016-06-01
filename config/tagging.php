@@ -11,6 +11,9 @@ return [
 	// How we will display (title) our tags before persisting them.
 	'displayer' => '\Illuminate\Support\Str::title',
 
+	// Utility provide various helper functionality
+	'utility' => '\App\Gistribute\Util',
+
 	// Taggable Interfaces for Abstract Taggable Repositories
 //	'taggable_interfaces' => [
 //		'\App\Models\SomeModel' => '\App\Repositories\SomeModels\SomeModelsInterface'

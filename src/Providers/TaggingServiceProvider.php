@@ -38,41 +38,76 @@ class TaggingServiceProvider extends ServiceProvider {
 	 */
 	public function register() 
 	{
-		$this->app->singleton(TaggingUtility::class, function () {
-			return new Util;
-		});
+		$utility = $this->app['config']['tagging.utility']
+			?: '\Dan\Tagging\Util';
+		
+		$this->app->singleton(TaggingUtility::class, $utility);
 
 		$createFunc = $this->app['config']['repositories.cache']
 			? "createWithCache" : "create";
 
-		$interface =$this->app['config']['tagging.users_interface'] ?: '\Dan\Tagging\Repositories\Users\UsersInterface';
-		$this->app->bind($interface, function ($app) use ($createFunc, $interface) {
-			return call_user_func_array([RepositoryFactory::class, $createFunc], ['Users', $this->getNamespace($interface, 2)]);
-		});
+		$interface = $this->app['config']['tagging.users_interface'] 
+			?: '\Dan\Tagging\Repositories\Users\UsersInterface';
+		
+		$this->app->bind($interface, 
+			function ($app) use ($createFunc, $interface) {
+				return call_user_func_array(
+					[RepositoryFactory::class, $createFunc], 
+					['Users', $this->getNamespace($interface, 2)]
+				);
+			}
+		);
 
-		$interface = $this->app['config']['tagging.tags_interface'] ?: '\Dan\Tagging\Repositories\Tags\TagsInterface';
-		$this->app->bind($interface, function ($app) use ($createFunc, $interface) {
-			return call_user_func_array([RepositoryFactory::class, $createFunc], ['Tags', $this->getNamespace($interface, 2)]);
-		});
+		$interface = $this->app['config']['tagging.tags_interface'] 
+			?: '\Dan\Tagging\Repositories\Tags\TagsInterface';
+		
+		$this->app->bind($interface, 
+			function ($app) use ($createFunc, $interface) {
+				return call_user_func_array(
+					[RepositoryFactory::class, $createFunc], 
+					['Tags', $this->getNamespace($interface, 2)]
+				);
+			}
+		);
 
-		$interface = $this->app['config']['tagging.tagged_interface'] ?: '\Dan\Tagging\Repositories\Tagged\TaggedInterface';
-		$this->app->bind($interface, function ($app) use ($createFunc, $interface) {
-			return call_user_func_array([RepositoryFactory::class, $createFunc], ['Tagged', $this->getNamespace($interface, 2)]);
-		});
+		$interface = $this->app['config']['tagging.tagged_interface'] 
+			?: '\Dan\Tagging\Repositories\Tagged\TaggedInterface';
+		
+		$this->app->bind($interface, 
+			function ($app) use ($createFunc, $interface) {
+				return call_user_func_array(
+					[RepositoryFactory::class, $createFunc], 
+					['Tagged', $this->getNamespace($interface, 2)]
+				);
+			}
+		);
 
-		$interface = $this->app['config']['tagging.tagged_user_interface'] ?: '\Dan\Tagging\Repositories\TaggedUser\TaggedUserInterface';
-		$this->app->bind($interface, function ($app) use ($createFunc, $interface) {
-			return call_user_func_array([RepositoryFactory::class, $createFunc], ['TaggedUser', $this->getNamespace($interface, 2)]);
-		});
+		$interface = $this->app['config']['tagging.tagged_user_interface'] 
+			?: '\Dan\Tagging\Repositories\TaggedUser\TaggedUserInterface';
+		
+		$this->app->bind($interface, 
+			function ($app) use ($createFunc, $interface) {
+				return call_user_func_array(
+					[RepositoryFactory::class, $createFunc], 
+					['TaggedUser', $this->getNamespace($interface, 2)]
+				);
+			}
+		);
 
 		$taggables = $this->app['config']['tagging.taggable_interfaces'] ?: [];
+		
 		foreach ($taggables as $model => $interface) {
 			$name = explode('\\', $model);
 			$taggable = str_plural(end($name));
-			$this->app->bind($interface, function ($app) use ($createFunc, $taggable, $interface) {
-				return call_user_func_array([RepositoryFactory::class, $createFunc], [$taggable, $this->getNamespace($interface, 2)]);
-			});
-		}
+			$this->app->bind($interface, 
+				function ($app) use ($createFunc, $taggable, $interface) {
+					return call_user_func_array(
+						[RepositoryFactory::class, $createFunc], 
+						[$taggable, $this->getNamespace($interface, 2)]
+					);
+				}
+			);
+		}		
 	}
 	
 	/**
