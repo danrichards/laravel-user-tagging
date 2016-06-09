@@ -208,7 +208,6 @@ class Util implements TaggingUtility
 		}
 		
 		if (is_numeric($user)) {
-			/** @var \App\Gistribute\Repositories\Users\UsersRepository $users */
 			$users = app($this->usersRepositoryInterface());
 			return $users->find($user);
 		}

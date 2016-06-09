@@ -12,7 +12,7 @@ return [
 	'displayer' => '\Illuminate\Support\Str::title',
 
 	// Utility provide various helper functionality
-	'utility' => '\App\Gistribute\Util',
+	'utility' => '\Dan\Tagging\Util',
 
 	// Taggable Interfaces for Abstract Taggable Repositories
 //	'taggable_interfaces' => [

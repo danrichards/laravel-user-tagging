@@ -6,8 +6,6 @@ use Torann\LaravelRepository\Repositories\AbstractCacheDecorator;
 
 /**
  * Class CacheDecorator
- *
- * @package App\Gistribute\Repositories\Users
  */
 class CacheDecorator extends AbstractCacheDecorator implements UsersInterface
 {
